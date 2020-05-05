@@ -9,7 +9,7 @@ import dds.monedero.exceptions.SaldoMenorException;
 public class ValidadorDeMovimientos {
 	
 	static void validarCantidadDeDepositos(Cuenta cuenta) {
-		if (cuenta.cantidadDeDepositos() >= 3) {
+		if (cuenta.cantidadDeDepositosDiarios() >= 3) {
 	      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
 	    }
 	}

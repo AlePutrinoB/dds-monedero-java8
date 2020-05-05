@@ -29,11 +29,11 @@ public class MonederoTest {
   }
 
   @Test
-  public void ElSaldoDeberiaSer3856LuegoDeTresDepositosDe1500_456Y1900() {
+  public void LaCantidadDeDepositosDelDiaDeberiaSerIgualA3() {
     cuenta.depositar(1500);
     cuenta.depositar(456);
     cuenta.depositar(1900);
-    Assert.assertEquals(3856.0 , cuenta.getSaldo());
+    Assert.assertEquals(3 , cuenta.cantidadDeDepositosDiarios());
   }
 
   @Test(expected = MaximaCantidadDepositosException.class)

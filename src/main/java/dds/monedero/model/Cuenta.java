@@ -32,11 +32,12 @@ public class Cuenta {
     ValidadorDeMovimientos.validarCantidadDeDepositos(this);
 
     movimientos.add(new Deposito(LocalDate.now(), cuanto));
+    saldo += cuanto;
   }
 
 
-  public long cantidadDeDepositos() {
-	return getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count();
+  public long cantidadDeDepositosDiarios() {
+	return this.movimientosDelDia(LocalDate.now()).filter(movimiento -> movimiento.isDeposito()).count();
   }
 
   public void extraer(double cuanto) {
@@ -44,6 +45,7 @@ public class Cuenta {
     ValidadorDeMovimientos.validarSaldoSuficiente(cuanto, this);
     ValidadorDeMovimientos.validarCantidadDeExtraccionesDelDia(cuanto, this);
     movimientos.add(new Extraccion(LocalDate.now(), cuanto));
+    saldo -= cuanto;
   }
 
 
@@ -56,8 +58,11 @@ public class Cuenta {
   }
 
 private Stream<Movimiento> extraccionesDelDia(LocalDate fecha) {
-	return this.getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha));
+	return movimientosDelDia(fecha).filter(movimiento -> movimiento.isExtraccion());
+}
+
+private Stream<Movimiento> movimientosDelDia(LocalDate fecha) {
+	return this.getMovimientos().stream().filter(movimiento -> movimiento.esDeLaFecha(fecha));
 }
 
   public List<Movimiento> getMovimientos() {
@@ -68,7 +73,7 @@ private Stream<Movimiento> extraccionesDelDia(LocalDate fecha) {
     return saldo;
   }
 
-  //Me parece innecesario al ya tener un constructor y el método poner
+  //Me parece innecesario al ya tener un constructor y el método poner. Podría generar inconsistencias como settear un valor negativo
   /*public void setSaldo(double saldo) {
     this.saldo = saldo;
   }*/ 
