@@ -7,6 +7,7 @@ import dds.monedero.exceptions.MaximaCantidadDepositosException;
 import dds.monedero.exceptions.MaximoExtraccionDiarioException;
 import dds.monedero.exceptions.MontoNegativoException;
 import dds.monedero.exceptions.SaldoMenorException;
+import junit.framework.Assert;
 
 public class MonederoTest {
   private Cuenta cuenta;
@@ -17,8 +18,9 @@ public class MonederoTest {
   }
 
   @Test
-  public void Poner() {
+  public void ElSaldoDeberiaSer1500LuegoDePonerDichaCantidad() {
     cuenta.poner(1500);
+    Assert.assertEquals(1500.0 , cuenta.getSaldo());
   }
 
   @Test(expected = MontoNegativoException.class)
@@ -27,10 +29,11 @@ public class MonederoTest {
   }
 
   @Test
-  public void TresDepositos() {
+  public void ElSaldoDeberiaSer3856LuegoDeTresDepositosDe1500_456Y1900() {
     cuenta.poner(1500);
     cuenta.poner(456);
     cuenta.poner(1900);
+    Assert.assertEquals(3856.0 , cuenta.getSaldo());
   }
 
   @Test(expected = MaximaCantidadDepositosException.class)
