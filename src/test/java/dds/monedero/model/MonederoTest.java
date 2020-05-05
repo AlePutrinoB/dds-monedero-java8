@@ -22,7 +22,7 @@ public class MonederoTest {
   }
 
   @Test(expected = MontoNegativoException.class)
-  public void PonerMontoNegativo() {
+  public void NoSeDeberiaPoderPonerMontoNegativo() {
     cuenta.poner(-1500);
   }
 
@@ -34,7 +34,7 @@ public class MonederoTest {
   }
 
   @Test(expected = MaximaCantidadDepositosException.class)
-  public void MasDeTresDepositos() {
+  public void NoSeDeberiaPoderMasDeTresDepositos() {
     cuenta.poner(1500);
     cuenta.poner(456);
     cuenta.poner(1900);
@@ -42,19 +42,19 @@ public class MonederoTest {
   }
 
   @Test(expected = SaldoMenorException.class)
-  public void ExtraerMasQueElSaldo() {
+  public void NoSeDeberiaPoderExtraerMasQueElSaldo() {
     cuenta.setSaldo(90);
     cuenta.sacar(1001);
   }
 
   @Test(expected = MaximoExtraccionDiarioException.class)
-  public void ExtraerMasDe1000() {
+  public void NoSeDeberiaPoderExtraerMasDe1000() {
     cuenta.setSaldo(5000);
     cuenta.sacar(1001);
   }
 
   @Test(expected = MontoNegativoException.class)
-  public void ExtraerMontoNegativo() {
+  public void NoSeDeberiaPoderExtraerMontoNegativo() {
     cuenta.sacar(-500);
   }
 

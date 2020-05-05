@@ -27,7 +27,7 @@ public class Cuenta {
   }
 
   public void poner(double cuanto) {
-    this.validarMontoPositvo(cuanto);
+    this.validarMontoPositivo(cuanto);
     this.validarCantidadDeMovimientos();
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
@@ -43,14 +43,14 @@ private long cantidadDeMovimientos() {
 	return getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count();
 }
 
-private void validarMontoPositvo(double cuanto) {
+private void validarMontoPositivo(double cuanto) {
 	if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
 }
 
   public void sacar(double cuanto) {
-    validarMontoPositvo(cuanto);
+    validarMontoPositivo(cuanto);
     if (getSaldo() - cuanto < 0) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
