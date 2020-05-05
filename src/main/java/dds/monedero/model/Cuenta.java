@@ -3,6 +3,7 @@ package dds.monedero.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import dds.monedero.exceptions.MaximaCantidadDepositosException;
 import dds.monedero.exceptions.MaximoExtraccionDiarioException;
@@ -28,13 +29,13 @@ public class Cuenta {
 
   public void poner(double cuanto) {
 	ValidadorDeMovimientos.validarMontoPositivo(cuanto);
-    ValidadorDeMovimientos.validarCantidadDeMovimientos(this);
+    ValidadorDeMovimientos.validarCantidadDeDepositos(this);
 
-    movimientos.add(new Movimiento(LocalDate.now(), cuanto, true));
+    movimientos.add(new Deposito(LocalDate.now(), cuanto));
   }
 
 
-  long cantidadDeMovimientos() {
+  public long cantidadDeDepositos() {
 	return getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count();
   }
 
@@ -42,7 +43,7 @@ public class Cuenta {
     ValidadorDeMovimientos.validarMontoPositivo(cuanto);
     ValidadorDeMovimientos.validarSaldoSuficiente(cuanto, this);
     ValidadorDeMovimientos.validarCantidadDeExtraccionesDelDia(cuanto, this);
-    movimientos.add(new Movimiento(LocalDate.now(), cuanto, false));
+    movimientos.add(new Extraccion(LocalDate.now(), cuanto));
   }
 
 
@@ -51,11 +52,13 @@ public class Cuenta {
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {
-    return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
-        .mapToDouble(Movimiento::getMonto)
-        .sum();
+    return extraccionesDelDia(fecha).mapToDouble(Movimiento::getMonto).sum();
   }
+
+private Stream<Movimiento> extraccionesDelDia(LocalDate fecha) {
+	return this.getMovimientos().stream()
+        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha));
+}
 
   public List<Movimiento> getMovimientos() {
     return movimientos;
@@ -68,5 +71,6 @@ public class Cuenta {
   public void setSaldo(double saldo) {
     this.saldo = saldo;
   }
+
 
 }

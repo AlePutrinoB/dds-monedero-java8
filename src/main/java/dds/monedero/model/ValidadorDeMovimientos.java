@@ -8,8 +8,8 @@ import dds.monedero.exceptions.SaldoMenorException;
 
 public class ValidadorDeMovimientos {
 	
-	static void validarCantidadDeMovimientos(Cuenta cuenta) {
-		if (cuenta.cantidadDeMovimientos() >= 3) {
+	static void validarCantidadDeDepositos(Cuenta cuenta) {
+		if (cuenta.cantidadDeDepositos() >= 3) {
 	      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
 	    }
 	}
