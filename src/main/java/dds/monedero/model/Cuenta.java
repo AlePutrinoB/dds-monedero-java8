@@ -27,7 +27,7 @@ public class Cuenta {
     this.movimientos = movimientos;
   }
 
-  public void poner(double cuanto) {
+  public void depositar(double cuanto) {
 	ValidadorDeMovimientos.validarMontoPositivo(cuanto);
     ValidadorDeMovimientos.validarCantidadDeDepositos(this);
 
@@ -39,7 +39,7 @@ public class Cuenta {
 	return getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count();
   }
 
-  public void sacar(double cuanto) {
+  public void extraer(double cuanto) {
     ValidadorDeMovimientos.validarMontoPositivo(cuanto);
     ValidadorDeMovimientos.validarSaldoSuficiente(cuanto, this);
     ValidadorDeMovimientos.validarCantidadDeExtraccionesDelDia(cuanto, this);
@@ -68,9 +68,10 @@ private Stream<Movimiento> extraccionesDelDia(LocalDate fecha) {
     return saldo;
   }
 
-  public void setSaldo(double saldo) {
+  //Me parece innecesario al ya tener un constructor y el método poner
+  /*public void setSaldo(double saldo) {
     this.saldo = saldo;
-  }
+  }*/ 
 
 
 }
