@@ -30,7 +30,7 @@ public class Cuenta {
 	ValidadorDeMovimientos.validarMontoPositivo(cuanto);
     ValidadorDeMovimientos.validarCantidadDeMovimientos(this);
 
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    movimientos.add(new Movimiento(LocalDate.now(), cuanto, true));
   }
 
 
